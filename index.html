@@ -21,12 +21,12 @@
 
 <body>
   <div id="app" class="flex flex-col items-center justify-center h-screen mx-10">
-    <div class="mb-10 mx-auto space-x-5">
-      <select class="p-2 rounded" name="tipo" id="tipo" onchange="load_map()">
+    <div class="mb-10 mx-auto space-y-5 md:space-y-0 md:space-x-5">
+      <select class="p-2 rounded w-full md:w-fit" name="tipo" id="tipo" onchange="load_map()">
         <option value="bairro" selected>Bairro</option>
         <option value="setor_censitario">Setor Censitário</option>
       </select>
-      <select class="p-2 rounded" name="dados" id="dados" onchange="load_map()">
+      <select class="p-2 rounded w-full md:w-fit" name="dados" id="dados" onchange="load_map()">
         <option value="populacao" selected>População</option>
         <option value="pes_dom">Pessoas por Domicílio</option>
         <option value="domicilios">Domicílios</option>
@@ -34,7 +34,7 @@
         <option value="area">Área Geográfica</option>
       </select>
     </div>
-    <iframe id="mapa" class="rounded-xl" src="./maps/bairro_populacao.html" frameborder="0" width="1280" height="720"></iframe>
+    <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:w-[1280px] lg:h-[720px]" src="./maps/bairro_populacao.html" frameborder="0"></iframe>
   </div>
 </body>
 
