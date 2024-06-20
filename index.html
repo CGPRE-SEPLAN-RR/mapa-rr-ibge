@@ -10,11 +10,38 @@
 
   <script>
     function load_map() {
-      const tipo = document.getElementById("tipo").value;
+      let tipoValor;
+      const tipo = document.getElementById("tipo");
+      const local = document.getElementById("local").value;
       const dados = document.getElementById("dados").value;
 
+      switch (local) {
+      case "estado":
+        tipo.children[0].value = "municipios";
+        tipo.children[0].innerHTML = "Município";
+
+        if (tipo.selectedIndex === 0) {
+          tipoValor = "municipios";
+        } else {
+          tipoValor = tipo.value;
+        }
+
+        break;
+      case "boa_vista":
+        tipo.children[0].value = "bairro";
+        tipo.children[0].innerHTML = "Bairro";
+
+        if (tipo.selectedIndex === 0) {
+          tipoValor = "bairro";
+        } else {
+          tipoValor = tipo.value;
+        }
+
+        break;
+      }
+
       const iframe = document.getElementById("mapa");
-      mapa.src = `./maps/${tipo}_${dados}.html`;
+      mapa.src = `./maps/${local}_${tipoValor}_${dados}.html`;
     }
   </script>
 </head>
@@ -22,8 +49,12 @@
 <body>
   <div id="app" class="flex flex-col items-center justify-center h-screen mx-10">
     <div class="mb-10 mx-auto space-y-5 md:space-y-0 md:space-x-5">
+      <select class="p-2 rounded w-full md:w-fit" name="local" id="local" onchange="load_map()">
+        <option value="estado" selected>Estado</option>
+        <option value="boa_vista">Boa Vista</option>
+      </select>
       <select class="p-2 rounded w-full md:w-fit" name="tipo" id="tipo" onchange="load_map()">
-        <option value="bairro" selected>Bairro</option>
+        <option value="municipios" selected>Município</option>
         <option value="setor_censitario">Setor Censitário</option>
       </select>
       <select class="p-2 rounded w-full md:w-fit" name="dados" id="dados" onchange="load_map()">
@@ -34,7 +65,7 @@
         <option value="area">Área Geográfica</option>
       </select>
     </div>
-    <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:max-w-[1280px] lg:h-[720px]" src="./maps/bairro_populacao.html" frameborder="0"></iframe>
+    <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:max-w-[1280px] lg:h-[720px]" src="./maps/estado_municipios_populacao.html" frameborder="0"></iframe>
   </div>
 </body>
 
