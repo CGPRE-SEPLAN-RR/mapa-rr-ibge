@@ -10,62 +10,74 @@
 
   <script>
     function load_map() {
-      let tipoValor;
-      const tipo = document.getElementById("tipo");
+      let esferaValor;
+      const esfera = document.getElementById("esfera");
       const local = document.getElementById("local").value;
       const dados = document.getElementById("dados").value;
 
       switch (local) {
-      case "estado":
-        tipo.children[0].value = "municipios";
-        tipo.children[0].innerHTML = "Município";
+        case "estado":
+          esfera.children[0].value = "municipios";
+          esfera.children[0].innerHTML = "Município";
 
-        if (tipo.selectedIndex === 0) {
-          tipoValor = "municipios";
-        } else {
-          tipoValor = tipo.value;
-        }
+          if (esfera.selectedIndex === 0) {
+            esferaValor = "municipios";
+          } else {
+            esferaValor = esfera.value;
+          }
 
-        break;
-      case "boa_vista":
-        tipo.children[0].value = "bairro";
-        tipo.children[0].innerHTML = "Bairro";
+          break;
+        case "boa_vista":
+          esfera.children[0].value = "bairro";
+          esfera.children[0].innerHTML = "Bairro";
 
-        if (tipo.selectedIndex === 0) {
-          tipoValor = "bairro";
-        } else {
-          tipoValor = tipo.value;
-        }
+          if (esfera.selectedIndex === 0) {
+            esferaValor = "bairro";
+          } else {
+            esferaValor = esfera.value;
+          }
 
-        break;
+          break;
       }
 
       const iframe = document.getElementById("mapa");
-      mapa.src = `./maps/${local}_${tipoValor}_${dados}.html`;
+      mapa.src = `./maps/${local}_${esferaValor}_${dados}.html`;
     }
   </script>
 </head>
 
 <body>
   <div id="app" class="flex flex-col items-center justify-center h-screen mx-10">
-    <div class="mb-10 mx-auto space-y-5 md:space-y-0 md:space-x-5">
-      <select class="p-2 rounded w-full md:w-fit" name="local" id="local" onchange="load_map()">
-        <option value="estado" selected>Estado</option>
-        <option value="boa_vista">Boa Vista</option>
-      </select>
-      <select class="p-2 rounded w-full md:w-fit" name="tipo" id="tipo" onchange="load_map()">
-        <option value="municipios" selected>Município</option>
-        <option value="setor_censitario">Setor Censitário</option>
-      </select>
-      <select class="p-2 rounded w-full md:w-fit" name="dados" id="dados" onchange="load_map()">
-        <option value="populacao" selected>População</option>
-        <option value="pes_dom">Pessoas por Domicílio</option>
-        <option value="domicilios">Domicílios</option>
-        <option value="densidade">Densidade Demográfica</option>
-        <option value="area">Área Geográfica</option>
-      </select>
+    <div class="flex justify-center flex-col md:flex-row mb-10 space-y-5 md:space-y-0 md:space-x-5 w-full">
+      <div class="flex flex-col space-y-2">
+        <label class="font-bold" for="local">Local</label>
+        <select class="p-2 rounded w-full md:w-fit" name="local" id="local" onchange="load_map()">
+          <option value="estado" selected>Estado</option>
+          <option value="boa_vista">Boa Vista</option>
+        </select>
+      </div>
+      <div class="flex flex-col space-y-2">
+        <label class="font-bold" for="esfera">Esfera</label>
+        <select class="p-2 rounded w-full md:w-fit" name="esfera" id="esfera" onchange="load_map()">
+          <option value="municipios" selected>Município</option>
+          <option value="setor_censitario">Setor Censitário</option>
+        </select>
+      </div>
+      <div class="flex flex-col space-y-2">
+        <label class="font-bold" for="dados">Dados</label>
+        <select class="p-2 rounded w-full md:w-fit" name="dados" id="dados" onchange="load_map()">
+          <option value="populacao" selected>População</option>
+          <option value="pes_dom">Pessoas por Domicílio</option>
+          <option value="domicilios">Domicílios</option>
+          <option value="densidade">Densidade Demográfica</option>
+          <option value="area">Área Geográfica</option>
+        </select>
+      </div>
     </div>
-    <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:max-w-[1280px] lg:h-[720px]" src="./maps/estado_municipios_populacao.html" frameborder="0"></iframe>
+    <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:max-w-[1280px] lg:h-[720px]"
+      src="./maps/estado_municipios_populacao.html" frameborder="0"></iframe>
+    <span class="text-sm md:text-base mt-5 font-light text-right w-full lg:max-w-[1280px]"><b>[Painel em Construção]</b> Desenvolvido pela
+      equipe da <a class="font-normal text-blue-600" href="https://seplan.rr.gov.br/cgees/" rel="noreferrer" referrerpolicy="no-referrer" target="_blank">CGEES</a> em conjunto com a equipe da <a class="font-normal text-blue-600" href="https://seplan.rr.gov.br/cgpre/" rel="noreferrer" referrerpolicy="no-referrer" target="_blank">CGPRE</a>.</span>
   </div>
 </body>
 
