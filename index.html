@@ -17,31 +17,42 @@
 
       switch (local) {
         case "estado":
-          esfera.children[0].value = "municipios";
-          esfera.children[0].innerHTML = "Município";
-
           if (esfera.selectedIndex === 0) {
+            esfera.innerHTML = `<option value="municipios" selected>Município</option><option value="setor_censitario">Setor Censitário</option>`;
             esferaValor = "municipios";
           } else {
+            esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario" selected>Setor Censitário</option>`;
             esferaValor = esfera.value;
           }
 
           break;
-        case "boa_vista":
-          esfera.children[0].value = "bairro";
-          esfera.children[0].innerHTML = "Bairro";
-
+        case "boavista":
           if (esfera.selectedIndex === 0) {
+            esfera.innerHTML = `<option value="bairro" selected>Bairro</option><option value="setor_censitario">Setor Censitário</option>`;
             esferaValor = "bairro";
           } else {
+            esfera.innerHTML = `<option value="bairro">Bairro</option><option value="setor_censitario" selected>Setor Censitário</option>`;
             esferaValor = esfera.value;
           }
 
+          break;
+        default:
+          esfera.innerHTML = `<option value="setor_censitario">Setor Censitário</option>`;
+          esferaValor = "setor_censitario";
           break;
       }
 
       const iframe = document.getElementById("mapa");
-      mapa.src = `./maps/${local}_${esferaValor}_${dados}.html`;
+
+      if (esferaValor == "municipios") {
+        mapa.src = `./maps/${esferaValor}_${dados}.html`;
+      } else if (esferaValor == "bairro") {
+        mapa.src = `./maps/${esferaValor}_${dados}_${local}.html`;
+      } else if (local == "estado") {
+        mapa.src = `./maps/${local}_${esferaValor}_${dados}.html`;
+      } else {
+        mapa.src = `./maps/area_urbana_${dados}_${local}.html`;
+      }
     }
   </script>
 </head>
@@ -53,7 +64,21 @@
         <label class="font-bold" for="local">Local</label>
         <select class="p-2 rounded w-full md:w-fit" name="local" id="local" onchange="load_map()">
           <option value="estado" selected>Estado</option>
-          <option value="boa_vista">Boa Vista</option>
+          <option value="amajari">Área Urbana de Amajari</option>
+          <option value="altoalegre">Área Urbana de Alto Alegre</option>
+          <option value="boavista">Área Urbana de Boa Vista</option>
+          <option value="bonfim">Área Urbana de Bonfim</option>
+          <option value="canta">Área Urbana de Cantá</option>
+          <option value="caracarai">Área Urbana de Caracaraí</option>
+          <option value="caroebe">Área Urbana de Caroebe</option>
+          <option value="iracema">Área Urbana de Iracema</option>
+          <option value="mucajai">Área Urbana de Mucajaí</option>
+          <option value="normandia">Área Urbana de Normandia</option>
+          <option value="pacaraima">Área Urbana de Pacaraima</option>
+          <option value="rorainopolis">Área Urbana de Rorainópolis</option>
+          <option value="saojoaodabaliza">Área Urbana de São João da Baliza</option>
+          <option value="saoluiz">Área Urbana de São Luiz</option>
+          <option value="uiramuta">Área Urbana de Uiramutã</option>
         </select>
       </div>
       <div class="flex flex-col space-y-2">
@@ -75,7 +100,7 @@
       </div>
     </div>
     <iframe id="mapa" class="rounded-xl w-full h-[600px] lg:max-w-[1280px] lg:h-[720px]"
-      src="./maps/estado_municipios_populacao.html" frameborder="0"></iframe>
+      src="./maps/municipios_populacao.html" frameborder="0"></iframe>
     <span class="text-sm md:text-base mt-5 font-light text-right w-full lg:max-w-[1280px]"><b>[Painel em Construção]</b> Desenvolvido pela
       equipe da <a class="font-normal text-blue-600" href="https://seplan.rr.gov.br/cgees/" rel="noreferrer" referrerpolicy="no-referrer" target="_blank">CGEES</a> em conjunto com a equipe da <a class="font-normal text-blue-600" href="https://seplan.rr.gov.br/cgpre/" rel="noreferrer" referrerpolicy="no-referrer" target="_blank">CGPRE</a>.</span>
   </div>
