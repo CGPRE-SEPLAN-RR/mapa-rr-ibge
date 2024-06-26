@@ -4111,7 +4111,7 @@
               break;
           }
 
-          this.url = `/maps/${local}_${esferaValor}_${dados}.html`;
+          this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}_${dados}.html`;
           htmx.ajax("GET", this.url, "#htmlwidget_container").then(() => {
             window.HTMLWidgets.staticRender();
           });
