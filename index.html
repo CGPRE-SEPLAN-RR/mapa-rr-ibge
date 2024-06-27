@@ -4080,13 +4080,13 @@
         url: "/maps/estado_municipios_populacao.html",
         loadMap() {
           const selectLocal = document.getElementById("local");
-          const local = selectLocal.value;
+          let local = selectLocal.value;
 
           const selectEsfera = document.getElementById("esfera");
-          const esfera = selectEsfera.value;
+          let esfera = selectEsfera.value;
 
           const selectDados = document.getElementById("dados");
-          const dados = selectDados.value;
+          let dados = selectDados.value;
 
           for (const el of selectDados.children) {
             el.disabled = false;
@@ -4134,6 +4134,7 @@
             if (el.value === esfera && el.disabled) {
               selectEsfera.selectedIndex = 0;
               selectEsfera.value = "setor_censitario";
+              esfera = "populacao";
               break;
             }
           }
@@ -4142,11 +4143,12 @@
             if (el.value === dados && el.disabled) {
               selectDados.selectedIndex = 0;
               selectDados.value = "populacao";
+              dados = "populacao";
               break;
             }
           }
 
-          if (esfera === "vazio_demografico") {
+          if (dados === "vazio_demografico") {
             this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esfera}.html`;
           } else {
             this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esfera}_${dados}.html`;
