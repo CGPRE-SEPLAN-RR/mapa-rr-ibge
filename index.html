@@ -4087,10 +4087,13 @@
           switch (local) {
             case "estado":
               if (esfera.selectedIndex === 0) {
-                esfera.innerHTML = `<option value="municipios" selected>Município</option><option value="setor_censitario">Setor Censitário</option>`;
+                esfera.innerHTML = `<option value="municipios" selected>Município</option><option value="setor_censitario">Setor Censitário</option><option value="vazio_demografico">Vazio Demográfico</option>`;
                 esferaValor = "municipios";
+              } else if (esfera.selectedIndex === 1) {
+                esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario" selected>Setor Censitário</option><option value="vazio_demografico">Vazio Demográfico</option>`;
+                esferaValor = "setor_censitario";
               } else {
-                esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario" selected>Setor Censitário</option>`;
+                esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario">Setor Censitário</option><option value="vazio_demografico" selected>Vazio Demográfico</option>`;
                 esferaValor = esfera.value;
               }
 
@@ -4111,7 +4114,12 @@
               break;
           }
 
-          this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}_${dados}.html`;
+          if (esferaValor === "vazio_demografico") {
+            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}.html`;
+          } else {
+            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}_${dados}.html`;
+          }
+
           htmx.ajax("GET", this.url, "#htmlwidget_container").then(() => {
             window.HTMLWidgets.staticRender();
           });
