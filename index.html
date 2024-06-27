@@ -4079,45 +4079,77 @@
       Alpine.data("map", () => ({
         url: "/maps/estado_municipios_populacao.html",
         loadMap() {
-          let esferaValor;
-          const esfera = document.getElementById("esfera");
-          const local = document.getElementById("local").value;
-          const dados = document.getElementById("dados").value;
+          const selectLocal = document.getElementById("local");
+          const local = selectLocal.value;
 
-          switch (local) {
-            case "estado":
-              if (esfera.selectedIndex === 0) {
-                esfera.innerHTML = `<option value="municipios" selected>Município</option><option value="setor_censitario">Setor Censitário</option><option value="vazio_demografico">Vazio Demográfico</option>`;
-                esferaValor = "municipios";
-              } else if (esfera.selectedIndex === 1) {
-                esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario" selected>Setor Censitário</option><option value="vazio_demografico">Vazio Demográfico</option>`;
-                esferaValor = "setor_censitario";
-              } else {
-                esfera.innerHTML = `<option value="municipios">Município</option><option value="setor_censitario">Setor Censitário</option><option value="vazio_demografico" selected>Vazio Demográfico</option>`;
-                esferaValor = esfera.value;
-              }
+          const selectEsfera = document.getElementById("esfera");
+          const esfera = selectEsfera.value;
 
-              break;
-            case "boavista":
-              if (esfera.selectedIndex === 0) {
-                esfera.innerHTML = `<option value="bairro" selected>Bairro</option><option value="setor_censitario">Setor Censitário</option>`;
-                esferaValor = "bairro";
-              } else {
-                esfera.innerHTML = `<option value="bairro">Bairro</option><option value="setor_censitario" selected>Setor Censitário</option>`;
-                esferaValor = esfera.value;
-              }
+          const selectDados = document.getElementById("dados");
+          const dados = selectDados.value;
 
-              break;
-            default:
-              esfera.innerHTML = `<option value="setor_censitario">Setor Censitário</option>`;
-              esferaValor = "setor_censitario";
-              break;
+          for (const el of selectDados.children) {
+            el.disabled = false;
+
+            if (el.value === "vazio_demografico") {
+              el.disabled = true;
+            }
           }
 
-          if (esferaValor === "vazio_demografico") {
-            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}.html`;
+          if (local === "estado") {
+            const selectEsfera = document.getElementById("esfera");
+            for (const el of selectEsfera.children) {
+              el.disabled = false;
+
+              if (el.value === "bairro") {
+                el.disabled = true;
+              }
+            }
+
+            if (esfera === "setor_censitario") {
+              for (const el of selectDados.children) {
+                el.disabled = false;
+              }
+            }
+          } else if (local === "boavista") {
+            const selectEsfera = document.getElementById("esfera");
+            for (const el of selectEsfera.children) {
+              el.disabled = false;
+              if (el.value === "municipios") {
+                el.disabled = true;
+              }
+            }
           } else {
-            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esferaValor}_${dados}.html`;
+            const selectEsfera = document.getElementById("esfera");
+            for (const el of selectEsfera.children) {
+              el.disabled = false;
+
+              if (el.value !== "setor_censitario") {
+                el.disabled = true;
+              }
+            }
+          }
+
+          for (const el of selectEsfera.children) {
+            if (el.value === esfera && el.disabled) {
+              selectEsfera.selectedIndex = 0;
+              selectEsfera.value = "setor_censitario";
+              break;
+            }
+          }
+
+          for (const el of selectDados.children) {
+            if (el.value === dados && el.disabled) {
+              selectDados.selectedIndex = 0;
+              selectDados.value = "populacao";
+              break;
+            }
+          }
+
+          if (esfera === "vazio_demografico") {
+            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esfera}.html`;
+          } else {
+            this.url = `https://cgpre-seplan-rr.github.io/mapa-rr-ibge/maps/${local}_${esfera}_${dados}.html`;
           }
 
           htmx.ajax("GET", this.url, "#htmlwidget_container").then(() => {
@@ -4156,9 +4188,9 @@
       <div class="flex flex-col space-y-2">
         <label class="font-bold" for="esfera">Esfera</label>
         <select class="p-2 rounded w-full md:w-fit" name="esfera" id="esfera" @change="loadMap">
-          <option value="municipios" selected>Município</option>
           <option value="setor_censitario">Setor Censitário</option>
-          <option value="vazio_demografico">Vazio Demográfico</option>
+          <option value="bairro" disabled>Bairro</option>
+          <option value="municipios" selected>Município</option>
         </select>
       </div>
       <div class="flex flex-col space-y-2">
@@ -4169,6 +4201,7 @@
           <option value="domicilios">Domicílios</option>
           <option value="densidade">Densidade Demográfica</option>
           <option value="area">Área Geográfica</option>
+          <option value="vazio_demografico" disabled>Vazio Demográfico</option>
         </select>
       </div>
     </div>
